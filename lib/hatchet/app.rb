@@ -156,6 +156,13 @@ module Hatchet
       end
 
       heroku_command = build_heroku_command(command, options)
+      puts "==========="
+      puts ENV.inspect
+      puts "which ruby: #{`which ruby`}"
+      puts "ruby -v #{`ruby -v`}"
+      puts "which heroku: #{`which heroku`}"
+      puts "heroku -v: #{`heroku -v`}"
+      puts "heroku_command: #{heroku_command}"
 
       allow_run_multi! if @run_multi
 
@@ -165,6 +172,11 @@ module Hatchet
         output = `#{heroku_command}`
         throw(:throttle) if output.match?(/reached the API rate limit/)
       end
+
+      puts "output: #{output.inspect}"
+      puts "output encoding: #{output.encoding}"
+      puts "output valid_encoding?: #{output.valid_encoding?}"
+      puts "CIRCLE_SHELL_ENV: #{`cat $CIRCLE_SHELL_ENV`}"
 
       return output
     end
